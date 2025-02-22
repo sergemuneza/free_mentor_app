@@ -1,66 +1,6 @@
-// import 'package:flutter/material.dart';
-// import '../models/session.dart';
-// import '../services/db_helper.dart';
-
-// class SessionProvider with ChangeNotifier {
-//   List<MentorshipSession> _userSessions = [];
-//   List<MentorshipSession> _mentorSessions = [];
-
-//   List<MentorshipSession> get userSessions => _userSessions;
-//   List<MentorshipSession> get mentorSessions => _mentorSessions;
-
-//   // ✅ Request a mentorship session
-//   Future<void> requestSession(String userEmail, String mentorEmail, String questions) async {
-//     try {
-//       MentorshipSession newSession = MentorshipSession(
-//         userEmail: userEmail,
-//         mentorEmail: mentorEmail,
-//         questions: questions,
-//       );
-
-//       await DBHelper.requestSession(newSession);
-//       print("✅ Session requested successfully!");
-
-//       await fetchUserSessions(userEmail); // Refresh user sessions
-//     } catch (e) {
-//       print("❌ Error requesting session: $e");
-//     }
-//   }
-
-//   // ✅ Fetch all sessions for a user
-//   Future<void> fetchUserSessions(String userEmail) async {
-//     try {
-//       _userSessions = await DBHelper.getUserSessions(userEmail);
-//       print("✅ User sessions fetched: ${_userSessions.length}");
-//       notifyListeners();
-//     } catch (e) {
-//       print("❌ Error fetching user sessions: $e");
-//     }
-//   }
-
-//   // ✅ Fetch all sessions for a mentor
-//   Future<void> fetchMentorSessions(String mentorEmail) async {
-//     try {
-//       _mentorSessions = await DBHelper.getMentorSessions(mentorEmail);
-//       print("✅ Mentor sessions fetched: ${_mentorSessions.length}");
-//       notifyListeners();
-//     } catch (e) {
-//       print("❌ Error fetching mentor sessions: $e");
-//     }
-//   }
-
-//   // ✅ Approve a mentorship session
-//   Future<void> approveSession(int sessionId, String mentorEmail) async {
-//     try {
-//       await DBHelper.approveSession(sessionId);
-//       print("✅ Session $sessionId approved!");
-//       await fetchMentorSessions(mentorEmail); // Refresh mentor sessions
-//     } catch (e) {
-//       print("❌ Error approving session: $e");
-//     }
-//   }
-// }
-
+/*
+SERGE MUNEZA (20248/2022)
+ */
 import 'package:flutter/material.dart';
 import '../models/session.dart';
 import '../services/db_helper.dart';

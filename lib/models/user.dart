@@ -1,3 +1,7 @@
+/*
+SERGE MUNEZA (20248/2022)
+ */
+
 class User {
   final int? id;
   final String firstName;

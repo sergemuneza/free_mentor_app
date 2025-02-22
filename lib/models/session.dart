@@ -1,9 +1,13 @@
+/*
+SERGE MUNEZA (20248/2022)
+ */
+
 class MentorshipSession {
   final int? id;
   final String userEmail; // The user requesting mentorship
   final String mentorEmail; // The mentor receiving request
   final String questions; // The user's questions
-  final bool isApproved; // If mentor has approved the session
+  final bool isApproved; // If mentor has approved the sessioN
 
   MentorshipSession({
     this.id,

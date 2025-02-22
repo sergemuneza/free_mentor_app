@@ -1,8 +1,10 @@
-
+/*
+SERGE MUNEZA (20248/2022)
+ */
 class Mentor {
   final int? id;
   final String name;
-  final String email; // ✅ Added email field
+  final String email; 
   final String bio;
   final String occupation;
   final String expertise;
@@ -10,18 +12,18 @@ class Mentor {
   Mentor({
     this.id,
     required this.name,
-    required this.email, // ✅ Now included
+    required this.email, 
     required this.bio,
     required this.occupation,
     required this.expertise,
   });
 
-  // ✅ Convert Mentor object to JSON
+  // Convert Mentor object to JSON
   Map<String, dynamic> toJson() {
     return {
       "id": id,
       "name": name,
-      "email": email, // ✅ Ensure email is saved
+      "email": email, 
       "bio": bio,
       "occupation": occupation,
       "expertise": expertise,
@@ -33,7 +35,7 @@ class Mentor {
     return Mentor(
       id: json["id"],
       name: json["name"],
-      email: json["email"] ?? "", // ✅ Ensure email is retrieved
+      email: json["email"] ?? "", 
       bio: json["bio"],
       occupation: json["occupation"],
       expertise: json["expertise"],
