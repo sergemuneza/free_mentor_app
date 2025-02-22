@@ -9,7 +9,7 @@ import 'providers/auth_provider.dart';
 import 'providers/mentor_provider.dart';
 import 'providers/session_provider.dart';
 import 'services/db_helper.dart';
-import 'screens/welcome_screen.dart'; // ✅ Import WelcomeScreen
+import 'screens/welcome_screen.dart'; // Import WelcomeScreen
 import 'screens/login_screen.dart';
 import 'screens/signup_screen.dart';
 import 'screens/mentor_list_screen.dart';
@@ -23,7 +23,7 @@ void main() async {
   runApp(MyApp());
 }
 
-// ✅ Initialize Database & Fetch Mentors Before App Starts
+// Initialize Database & Fetch Mentors Before App Starts
 Future<void> _initializeApp() async {
   await DBHelper.getAllMentors().then((mentors) {
     debugPrint("✅ Mentors in database: ${mentors.length}");
@@ -50,9 +50,9 @@ class MyApp extends StatelessWidget {
           future: _initializeApp(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
-              return _buildLoadingScreen(); // ✅ Show loading screen before initialization
+              return _buildLoadingScreen(); // Show loading screen before initialization
             }
-            return WelcomeScreen(); // ✅ Now WelcomeScreen is the first page
+            return WelcomeScreen(); // Now WelcomeScreen is the first page
           },
         ),
         routes: {
@@ -68,7 +68,7 @@ class MyApp extends StatelessWidget {
     );
   }
 
-  // ✅ Loading Screen While App Starts
+  // Loading Screen While App Starts
   Widget _buildLoadingScreen() {
     return Scaffold(
       body: Center(child: CircularProgressIndicator()),
