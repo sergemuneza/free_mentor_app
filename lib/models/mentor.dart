@@ -1,10 +1,10 @@
 /*
-SERGE MUNEZA (20248/2022)
+Developer: SERGE MUNEZA
  */
 class Mentor {
   final int? id;
   final String name;
-  final String email; 
+  final String email;
   final String bio;
   final String occupation;
   final String expertise;
@@ -12,7 +12,7 @@ class Mentor {
   Mentor({
     this.id,
     required this.name,
-    required this.email, 
+    required this.email,
     required this.bio,
     required this.occupation,
     required this.expertise,
@@ -23,7 +23,7 @@ class Mentor {
     return {
       "id": id,
       "name": name,
-      "email": email, 
+      "email": email,
       "bio": bio,
       "occupation": occupation,
       "expertise": expertise,
@@ -35,7 +35,7 @@ class Mentor {
     return Mentor(
       id: json["id"],
       name: json["name"],
-      email: json["email"] ?? "", 
+      email: json["email"] ?? "",
       bio: json["bio"],
       occupation: json["occupation"],
       expertise: json["expertise"],

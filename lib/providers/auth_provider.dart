@@ -1,6 +1,7 @@
 /*
-SERGE MUNEZA (20248/2022)
+Developer: SERGE MUNEZA
  */
+
 import 'package:flutter/material.dart';
 import 'package:bcrypt/bcrypt.dart';
 import '../models/user.dart';

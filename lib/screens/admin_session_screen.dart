@@ -1,5 +1,5 @@
 /*
-SERGE MUNEZA (20248/2022)
+Developer: SERGE MUNEZA
  */
 
 import 'package:flutter/material.dart';
@@ -20,11 +20,14 @@ class _AdminSessionScreenState extends State<AdminSessionScreen> {
     _loadSessions();
   }
 
+  // ✅ Fetch all sessions for admin
   Future<void> _loadSessions() async {
     await Provider.of<SessionProvider>(context, listen: false).fetchAllSessions();
-    setState(() {
-      _isLoading = false;
-    });
+    if (mounted) {
+      setState(() {
+        _isLoading = false;
+      });
+    }
   }
 
   @override
@@ -37,21 +40,53 @@ class _AdminSessionScreenState extends State<AdminSessionScreen> {
           ? Center(child: CircularProgressIndicator())
           : sessionProvider.sessions.isEmpty
               ? Center(child: Text("No mentorship sessions found."))
-              : ListView.builder(
-                  itemCount: sessionProvider.sessions.length,
-                  itemBuilder: (context, index) {
-                    final session = sessionProvider.sessions[index];
-                    return Card(
-                      margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                      child: ListTile(
-                        title: Text("User: ${session.userEmail}"),
-                        subtitle: Text("Mentor: ${session.mentorEmail}\nQuestions: ${session.questions}"),
-                        trailing: session.isApproved
-                            ? Text("✅ Approved", style: TextStyle(color: Colors.green))
-                            : Text("⏳ Pending", style: TextStyle(color: Colors.orange)),
-                      ),
-                    );
-                  },
+              : RefreshIndicator(
+                  onRefresh: _loadSessions, // ✅ Pull to refresh feature
+                  child: ListView.separated(
+                    padding: EdgeInsets.all(12),
+                    itemCount: sessionProvider.sessions.length,
+                    separatorBuilder: (context, index) => Divider(), // ✅ Adds separation between items
+                    itemBuilder: (context, index) {
+                      final session = sessionProvider.sessions[index];
+
+                      // ✅ Correctly display Approved, Pending, and Rejected statuses
+                      String statusText;
+                      Color statusColor;
+
+                      switch (session.isApproved) {
+                        case 1:
+                          statusText = "✅ Approved";
+                          statusColor = Colors.green;
+                          break;
+                        case -1:
+                          statusText = "❌ Rejected";
+                          statusColor = Colors.red;
+                          break;
+                        default:
+                          statusText = "⏳ Pending";
+                          statusColor = Colors.orange;
+                          break;
+                      }
+
+                      return Card(
+                        elevation: 2,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                        child: ListTile(
+                          contentPadding: EdgeInsets.all(12),
+                          title: Text("User: ${session.userEmail}", style: TextStyle(fontWeight: FontWeight.bold)),
+                          subtitle: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              SizedBox(height: 5),
+                              Text("Mentor: ${session.mentorEmail}"),
+                              Text("Questions: ${session.questions}"),
+                            ],
+                          ),
+                          trailing: Text(statusText, style: TextStyle(color: statusColor, fontWeight: FontWeight.bold)),
+                        ),
+                      );
+                    },
+                  ),
                 ),
     );
   }

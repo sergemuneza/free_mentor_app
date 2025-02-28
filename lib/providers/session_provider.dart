@@ -1,6 +1,7 @@
 /*
-SERGE MUNEZA (20248/2022)
+Developer: SERGE MUNEZA
  */
+
 import 'package:flutter/material.dart';
 import '../models/session.dart';
 import '../services/db_helper.dart';
@@ -41,15 +42,30 @@ class SessionProvider with ChangeNotifier {
     notifyListeners();
   }
 
-  // ✅ Approve a Mentorship Session
-  Future<void> approveSession(int sessionId, String mentorEmail) async {
-    await DBHelper.approveSession(sessionId);
-    await fetchMentorSessions(mentorEmail); // ✅ Refresh after approval
-  }
+  // // ✅ Approve a Mentorship Session
+  // Future<void> approveSession(int sessionId, String mentorEmail) async {
+  //   await DBHelper.approveSession(sessionId);
+  //   await fetchMentorSessions(mentorEmail); // ✅ Refresh after approval
+  // }
 
-  // ✅ Reject a Mentorship Session
-  Future<void> rejectSession(int sessionId, String mentorEmail) async {
-    await DBHelper.rejectSession(sessionId);
-    await fetchMentorSessions(mentorEmail); // ✅ Refresh after rejection
-  }
+  // // ✅ Reject a Mentorship Session
+  // Future<void> rejectSession(int sessionId, String mentorEmail) async {
+  //   await DBHelper.rejectSession(sessionId);
+  //   await fetchMentorSessions(mentorEmail); // ✅ Refresh after rejection
+  // }
+
+// ✅ Approve a session & refresh list
+Future<void> approveSession(int sessionId, String mentorEmail) async {
+  await DBHelper.approveSession(sessionId);
+  await fetchMentorSessions(mentorEmail); // ✅ Refresh after approval
+  notifyListeners();
+}
+
+// ✅ Reject a session & refresh list
+Future<void> rejectSession(int sessionId, String mentorEmail) async {
+  await DBHelper.rejectSession(sessionId);
+  await fetchMentorSessions(mentorEmail); // ✅ Refresh after rejection
+  notifyListeners();
+}
+
 }

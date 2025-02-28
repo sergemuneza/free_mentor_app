@@ -1,5 +1,5 @@
 /*
-SERGE MUNEZA (20248/2022)
+Developer: SERGE MUNEZA
  */
 
 import 'package:flutter/material.dart';
@@ -16,26 +16,19 @@ class _ApproveSessionScreenState extends State<ApproveSessionScreen> {
   bool _isLoading = true;
 
   @override
-  void initState() {
-    super.initState();
-    _loadSessions();
-  }
-
-  Future<void> _loadSessions() async {
-    final mentor = Provider.of<AuthProvider>(context, listen: false).user;
-    if (mentor != null) {
-      await Provider.of<SessionProvider>(context, listen: false).fetchMentorSessions(mentor.email);
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    if (_isLoading) {
+      final mentor = Provider.of<AuthProvider>(context, listen: false).user!;
+      Provider.of<SessionProvider>(context, listen: false).fetchMentorSessions(mentor.email).then((_) {
+        setState(() => _isLoading = false);
+      });
     }
-    setState(() {
-      _isLoading = false;
-    });
   }
 
   @override
   Widget build(BuildContext context) {
     final sessionProvider = Provider.of<SessionProvider>(context);
-    final authProvider = Provider.of<AuthProvider>(context, listen: false);
-    final mentorEmail = authProvider.user?.email ?? "";
 
     return Scaffold(
       appBar: AppBar(title: Text("Mentorship Requests")),
@@ -52,29 +45,33 @@ class _ApproveSessionScreenState extends State<ApproveSessionScreen> {
                       child: ListTile(
                         title: Text("Request from: ${session.userEmail}"),
                         subtitle: Text(session.questions),
-                        trailing: session.isApproved
+                        trailing: session.isApproved == 1
                             ? Text("✅ Approved", style: TextStyle(color: Colors.green))
-                            : Row(
-                                mainAxisSize: MainAxisSize.min,
-                                children: [
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      await sessionProvider.approveSession(session.id!, mentorEmail);
-                                      _loadSessions(); // ✅ Refresh the session list
-                                    },
-                                    child: Text("Approve"),
+                            : session.isApproved == -1
+                                ? Text("❌ Rejected", style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold))
+                                : Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          setState(() => _isLoading = true);
+                                          await sessionProvider.approveSession(session.id!, session.mentorEmail);
+                                          setState(() => _isLoading = false);
+                                        },
+                                        child: Text("Approve"),
+                                      ),
+                                      SizedBox(width: 10),
+                                      ElevatedButton(
+                                        onPressed: () async {
+                                          setState(() => _isLoading = true);
+                                          await sessionProvider.rejectSession(session.id!, session.mentorEmail);
+                                          setState(() => _isLoading = false);
+                                        },
+                                        style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
+                                        child: Text("Reject"),
+                                      ),
+                                    ],
                                   ),
-                                  SizedBox(width: 8),
-                                  ElevatedButton(
-                                    onPressed: () async {
-                                      await sessionProvider.rejectSession(session.id!, mentorEmail);
-                                      _loadSessions(); // ✅ Refresh after rejection
-                                    },
-                                    style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                                    child: Text("Reject"),
-                                  ),
-                                ],
-                              ),
                       ),
                     );
                   },

@@ -1,5 +1,5 @@
 /*
-SERGE MUNEZA (20248/2022)
+Developer: SERGE MUNEZA
  */
 
 import 'package:flutter/material.dart';
@@ -43,12 +43,26 @@ class _SessionHistoryScreenState extends State<SessionHistoryScreen> {
                   itemCount: sessionProvider.sessions.length,
                   itemBuilder: (context, index) {
                     final session = sessionProvider.sessions[index];
+
+                    // ✅ Correctly display Approved, Pending, and Rejected statuses
+                    String statusText;
+                    Color statusColor;
+
+                    if (session.isApproved == 1) {
+                      statusText = "✅ Approved";
+                      statusColor = Colors.green;
+                    } else if (session.isApproved == -1) {
+                      statusText = "❌ Rejected";
+                      statusColor = Colors.red;
+                    } else {
+                      statusText = "⏳ Pending";
+                      statusColor = Colors.orange;
+                    }
+
                     return ListTile(
                       title: Text("Mentor: ${session.mentorEmail}"),
                       subtitle: Text(session.questions),
-                      trailing: session.isApproved
-                          ? Text("✅ Approved", style: TextStyle(color: Colors.green))
-                          : Text("⏳ Pending", style: TextStyle(color: Colors.orange)),
+                      trailing: Text(statusText, style: TextStyle(color: statusColor, fontWeight: FontWeight.bold)),
                     );
                   },
                 ),

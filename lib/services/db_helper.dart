@@ -51,15 +51,54 @@ class DBHelper {
       },
       onUpgrade: (db, oldVersion, newVersion) async {
         if (oldVersion < 2) {
-          await db.execute("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user'");
+          await db
+              .execute("ALTER TABLE users ADD COLUMN role TEXT DEFAULT 'user'");
         }
       },
     );
   }
 
-  // Insert New User (Signup)
+  // // Insert New User (Signup)
+  // static Future<int> insertUser(User user) async {
+  //   final db = await database;
+  //   List<Map<String, dynamic>> existingUsers = await db.query(
+  //     "users",
+  //     where: "email = ?",
+  //     whereArgs: [user.email],
+  //   );
+
+  //   if (existingUsers.isNotEmpty) {
+  //     print("❌ Signup failed: Email '${user.email}' already exists!");
+  //     return -1; // Indicate duplicate email
+  //   }
+
+  //   try {
+  //     int result = await db.insert("users", user.toJson());
+  //     print("✅ User inserted: ${user.email}");
+  //     return result;
+  //   } catch (e) {
+  //     print("❌ Error inserting user: $e");
+  //     return -1;
+  //   }
+  // }
+// ✅ Insert New User (Signup)
   static Future<int> insertUser(User user) async {
     final db = await database;
+
+    // ✅ Prevent empty fields from being inserted
+    if (user.firstName.isEmpty ||
+        user.lastName.isEmpty ||
+        user.email.isEmpty ||
+        user.password.isEmpty ||
+        user.address.isEmpty ||
+        user.bio.isEmpty ||
+        user.occupation.isEmpty ||
+        user.expertise.isEmpty) {
+      print("❌ Signup failed: Empty fields are not allowed!");
+      return -1; // Indicate error
+    }
+
+    // ✅ Check if email already exists
     List<Map<String, dynamic>> existingUsers = await db.query(
       "users",
       where: "email = ?",
@@ -68,7 +107,7 @@ class DBHelper {
 
     if (existingUsers.isNotEmpty) {
       print("❌ Signup failed: Email '${user.email}' already exists!");
-      return -1; // Indicate duplicate email
+      return -1;
     }
 
     try {
@@ -99,17 +138,16 @@ class DBHelper {
   }
 
   // Fetch all users
-static Future<List<User>> getAllUsers() async {
-  final db = await database;
-  List<Map<String, dynamic>> results = await db.query(
-    "users",
-    where: "role = ?", 
-    whereArgs: ["user"],
-  );
+  static Future<List<User>> getAllUsers() async {
+    final db = await database;
+    List<Map<String, dynamic>> results = await db.query(
+      "users",
+      where: "role = ?",
+      whereArgs: ["user"],
+    );
 
-  return results.map((data) => User.fromJson(data)).toList();
-}
-
+    return results.map((data) => User.fromJson(data)).toList();
+  }
 
   // Promote User to Mentor
   static Future<int> promoteUserToMentor(String email) async {
@@ -131,33 +169,37 @@ static Future<List<User>> getAllUsers() async {
   }
 
   // Get all mentors (Users with role = "mentor")
-static Future<List<Mentor>> getAllMentors() async {
-  final db = await database;
-  List<Map<String, dynamic>> results = await db.query(
-    "users",
-    where: "role = ?",
-    whereArgs: ["mentor"],
-  );
+  static Future<List<Mentor>> getAllMentors() async {
+    final db = await database;
+    List<Map<String, dynamic>> results = await db.query(
+      "users",
+      where: "role = ?",
+      whereArgs: ["mentor"],
+    );
 
-  if (results.isEmpty) {
-    print("❌ No mentors found in the database!");
-  } else {
-    print("✅ Mentors found:");
-    for (var mentor in results) {
-      print("Mentor: ${mentor['firstName']} ${mentor['lastName']} - Expertise: ${mentor['expertise']}");
+    if (results.isEmpty) {
+      print("❌ No mentors found in the database!");
+    } else {
+      print("✅ Mentors found:");
+      for (var mentor in results) {
+        print(
+            "Mentor: ${mentor['firstName']} ${mentor['lastName']} - Expertise: ${mentor['expertise']}");
+      }
     }
+
+    return results
+        .map((data) => Mentor(
+              id: data["id"],
+              name:
+                  "${data["firstName"] ?? 'Unknown'} ${data["lastName"] ?? ''}"
+                      .trim(),
+              email: data["email"] ?? "", // ✅ Ensure email is included
+              bio: data["bio"] ?? "No bio available",
+              occupation: data["occupation"] ?? "Unknown occupation",
+              expertise: data["expertise"] ?? "Unknown expertise",
+            ))
+        .toList();
   }
-
-  return results.map((data) => Mentor(
-    id: data["id"],
-    name: "${data["firstName"] ?? 'Unknown'} ${data["lastName"] ?? ''}".trim(),
-    email: data["email"] ?? "", // ✅ Ensure email is included
-    bio: data["bio"] ?? "No bio available",
-    occupation: data["occupation"] ?? "Unknown occupation",
-    expertise: data["expertise"] ?? "Unknown expertise",
-  )).toList();
-}
-
 
   // Insert Mentorship Session Request
   static Future<int> requestSession(MentorshipSession session) async {
@@ -166,7 +208,8 @@ static Future<List<Mentor>> getAllMentors() async {
   }
 
   // Get All Mentorship Session Requests for a Mentor
-  static Future<List<MentorshipSession>> getMentorSessions(String mentorEmail) async {
+  static Future<List<MentorshipSession>> getMentorSessions(
+      String mentorEmail) async {
     final db = await database;
     List<Map<String, dynamic>> results = await db.query(
       "mentorship_sessions",
@@ -178,7 +221,8 @@ static Future<List<Mentor>> getAllMentors() async {
   }
 
   // Get All Mentorship Sessions for a User
-  static Future<List<MentorshipSession>> getUserSessions(String userEmail) async {
+  static Future<List<MentorshipSession>> getUserSessions(
+      String userEmail) async {
     final db = await database;
     List<Map<String, dynamic>> results = await db.query(
       "mentorship_sessions",
@@ -197,15 +241,49 @@ static Future<List<Mentor>> getAllMentors() async {
     return results.map((data) => MentorshipSession.fromJson(data)).toList();
   }
 
-  // Approve Mentorship Session
-  static Future<int> approveSession(int sessionId) async {
+  // // Approve Mentorship Session
+  // static Future<int> approveSession(int sessionId) async {
+  //   final db = await database;
+  //   return await db.update("mentorship_sessions", {"isApproved": 1}, where: "id = ?", whereArgs: [sessionId]);
+  // }
+
+  // // Reject Mentorship Session
+  // static Future<int> rejectSession(int sessionId) async {
+  //   final db = await database;
+  //   return await db.delete("mentorship_sessions", where: "id = ?", whereArgs: [sessionId]);
+  // }
+
+  // Delete users with empty required fields
+  static Future<int> deleteEmptyUsers() async {
     final db = await database;
-    return await db.update("mentorship_sessions", {"isApproved": 1}, where: "id = ?", whereArgs: [sessionId]);
+    int deletedRows = await db.delete(
+      "users",
+      where: "firstName = '' OR lastName = '' OR email = '' OR password = ''",
+    );
+
+    print("✅ Deleted $deletedRows empty users.");
+    return deletedRows;
   }
 
-  // Reject Mentorship Session
+// ✅ Approve a mentorship session
+  static Future<int> approveSession(int sessionId) async {
+    final db = await database;
+    return await db.update(
+      "mentorship_sessions",
+      {"isApproved": 1}, // 1 = Approved
+      where: "id = ?",
+      whereArgs: [sessionId],
+    );
+  }
+
+// ✅ Reject a mentorship session
   static Future<int> rejectSession(int sessionId) async {
     final db = await database;
-    return await db.delete("mentorship_sessions", where: "id = ?", whereArgs: [sessionId]);
+    return await db.update(
+      "mentorship_sessions",
+      {"isApproved": -1}, // -1 = Rejected
+      where: "id = ?",
+      whereArgs: [sessionId],
+    );
   }
 }
