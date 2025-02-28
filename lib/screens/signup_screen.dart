@@ -37,7 +37,7 @@ class _SignupScreenState extends State<SignupScreen> {
           key: _formKey,
           child: Column(
             children: [
-              // ✅ First Name
+         
               _buildTextField(
                 controller: firstNameController,
                 label: "First Name",
@@ -46,7 +46,7 @@ class _SignupScreenState extends State<SignupScreen> {
                     value!.isEmpty ? "Enter your first name" : null,
               ),
 
-              // ✅ Last Name
+             
               _buildTextField(
                 controller: lastNameController,
                 label: "Last Name",
@@ -55,7 +55,6 @@ class _SignupScreenState extends State<SignupScreen> {
                     value!.isEmpty ? "Enter your last name" : null,
               ),
 
-              // ✅ Email
               _buildTextField(
                 controller: emailController,
                 label: "Email",
@@ -71,7 +70,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 },
               ),
 
-              // ✅ Password
               _buildTextField(
                 controller: passwordController,
                 label: "Password",
@@ -82,7 +80,6 @@ class _SignupScreenState extends State<SignupScreen> {
                     : null,
               ),
 
-              // ✅ Address
               _buildTextField(
                 controller: addressController,
                 label: "Address",
@@ -91,7 +88,6 @@ class _SignupScreenState extends State<SignupScreen> {
                     value!.isEmpty ? "Enter your address" : null,
               ),
 
-              // ✅ Bio
               _buildTextField(
                 controller: bioController,
                 label: "Bio",
@@ -99,7 +95,6 @@ class _SignupScreenState extends State<SignupScreen> {
                 validator: (value) => value!.isEmpty ? "Enter your bio" : null,
               ),
 
-              // ✅ Occupation
               _buildTextField(
                 controller: occupationController,
                 label: "Occupation",
@@ -108,7 +103,6 @@ class _SignupScreenState extends State<SignupScreen> {
                     value!.isEmpty ? "Enter your occupation" : null,
               ),
 
-              // ✅ Expertise
               _buildTextField(
                 controller: expertiseController,
                 label: "Expertise",
@@ -117,17 +111,15 @@ class _SignupScreenState extends State<SignupScreen> {
                     value!.isEmpty ? "Enter your expertise" : null,
               ),
 
-              // ✅ Role Selection
+
               _buildRoleDropdown(),
 
               SizedBox(height: 20),
 
-              // ✅ Signup Button
               _buildSignupButton(authProvider),
 
               SizedBox(height: 10),
 
-              // ✅ Login Redirect
               TextButton(
                 onPressed: () {
                   Navigator.pushReplacement(
@@ -144,7 +136,6 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  // ✅ Text Field Widget
   Widget _buildTextField({
     required TextEditingController controller,
     required String label,
@@ -169,7 +160,6 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  // ✅ Role Dropdown
   Widget _buildRoleDropdown() {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
@@ -194,7 +184,6 @@ class _SignupScreenState extends State<SignupScreen> {
     );
   }
 
-  // ✅ Signup Button
   Widget _buildSignupButton(AuthProvider authProvider) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
@@ -204,7 +193,7 @@ class _SignupScreenState extends State<SignupScreen> {
       ),
       onPressed: () async {
         if (_formKey.currentState!.validate()) {
-          // Close keyboard before signup
+        
           FocusScope.of(context).unfocus();
 
           User newUser = User(

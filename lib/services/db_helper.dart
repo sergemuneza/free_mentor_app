@@ -58,34 +58,11 @@ class DBHelper {
     );
   }
 
-  // // Insert New User (Signup)
-  // static Future<int> insertUser(User user) async {
-  //   final db = await database;
-  //   List<Map<String, dynamic>> existingUsers = await db.query(
-  //     "users",
-  //     where: "email = ?",
-  //     whereArgs: [user.email],
-  //   );
-
-  //   if (existingUsers.isNotEmpty) {
-  //     print("❌ Signup failed: Email '${user.email}' already exists!");
-  //     return -1; // Indicate duplicate email
-  //   }
-
-  //   try {
-  //     int result = await db.insert("users", user.toJson());
-  //     print("✅ User inserted: ${user.email}");
-  //     return result;
-  //   } catch (e) {
-  //     print("❌ Error inserting user: $e");
-  //     return -1;
-  //   }
-  // }
-// ✅ Insert New User (Signup)
+// Insert New User (Signup)
   static Future<int> insertUser(User user) async {
     final db = await database;
 
-    // ✅ Prevent empty fields from being inserted
+    // Prevent empty fields from being inserted
     if (user.firstName.isEmpty ||
         user.lastName.isEmpty ||
         user.email.isEmpty ||
@@ -98,7 +75,7 @@ class DBHelper {
       return -1; // Indicate error
     }
 
-    // ✅ Check if email already exists
+    // Check if email already exists
     List<Map<String, dynamic>> existingUsers = await db.query(
       "users",
       where: "email = ?",
@@ -241,18 +218,6 @@ class DBHelper {
     return results.map((data) => MentorshipSession.fromJson(data)).toList();
   }
 
-  // // Approve Mentorship Session
-  // static Future<int> approveSession(int sessionId) async {
-  //   final db = await database;
-  //   return await db.update("mentorship_sessions", {"isApproved": 1}, where: "id = ?", whereArgs: [sessionId]);
-  // }
-
-  // // Reject Mentorship Session
-  // static Future<int> rejectSession(int sessionId) async {
-  //   final db = await database;
-  //   return await db.delete("mentorship_sessions", where: "id = ?", whereArgs: [sessionId]);
-  // }
-
   // Delete users with empty required fields
   static Future<int> deleteEmptyUsers() async {
     final db = await database;
@@ -265,7 +230,7 @@ class DBHelper {
     return deletedRows;
   }
 
-// ✅ Approve a mentorship session
+// Approve a mentorship session
   static Future<int> approveSession(int sessionId) async {
     final db = await database;
     return await db.update(
@@ -276,7 +241,7 @@ class DBHelper {
     );
   }
 
-// ✅ Reject a mentorship session
+// Reject a mentorship session
   static Future<int> rejectSession(int sessionId) async {
     final db = await database;
     return await db.update(

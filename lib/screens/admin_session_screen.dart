@@ -20,7 +20,7 @@ class _AdminSessionScreenState extends State<AdminSessionScreen> {
     _loadSessions();
   }
 
-  // ✅ Fetch all sessions for admin
+  // Fetch all sessions for admin
   Future<void> _loadSessions() async {
     await Provider.of<SessionProvider>(context, listen: false).fetchAllSessions();
     if (mounted) {
@@ -41,15 +41,14 @@ class _AdminSessionScreenState extends State<AdminSessionScreen> {
           : sessionProvider.sessions.isEmpty
               ? Center(child: Text("No mentorship sessions found."))
               : RefreshIndicator(
-                  onRefresh: _loadSessions, // ✅ Pull to refresh feature
+                  onRefresh: _loadSessions, 
                   child: ListView.separated(
                     padding: EdgeInsets.all(12),
                     itemCount: sessionProvider.sessions.length,
-                    separatorBuilder: (context, index) => Divider(), // ✅ Adds separation between items
+                    separatorBuilder: (context, index) => Divider(), 
                     itemBuilder: (context, index) {
                       final session = sessionProvider.sessions[index];
 
-                      // ✅ Correctly display Approved, Pending, and Rejected statuses
                       String statusText;
                       Color statusColor;
 

@@ -19,7 +19,7 @@ class MentorDetailScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            // ✅ Welcome message
+           
             Center(
               child: Text(
                 "👋 Welcome to the Mentor Details Screen",
@@ -29,18 +29,16 @@ class MentorDetailScreen extends StatelessWidget {
             ),
             Divider(thickness: 1, height: 20),
 
-            // ✅ Mentor details section
             _buildDetailSection("👤 Name", mentor.name),
             _buildDetailSection("📖 Bio", mentor.bio),
             _buildDetailSection("💼 Occupation", mentor.occupation),
             _buildDetailSection("🎓 Expertise", mentor.expertise),
 
-            // ✅ Action button (optional for further interactions)
             SizedBox(height: 20),
             Center(
               child: ElevatedButton(
                 onPressed: () {
-                  Navigator.pop(context); // Go back to the mentor list
+                  Navigator.pop(context); 
                 },
                 child: Text("Back to Mentors"),
               ),
@@ -51,7 +49,6 @@ class MentorDetailScreen extends StatelessWidget {
     );
   }
 
-  // ✅ Reusable method to create labeled sections
   Widget _buildDetailSection(String title, String content) {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),

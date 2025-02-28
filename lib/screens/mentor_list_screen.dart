@@ -46,18 +46,18 @@ class _MentorListScreenState extends State<MentorListScreen> {
         title: Text("🎓 Mentor List"),
         actions: [
           if (userRole == "admin")
-            _buildIconButton(Icons.list, "All Sessions", AdminSessionScreen()), // ✅ Admins: View All Sessions
+            _buildIconButton(Icons.list, "All Sessions", AdminSessionScreen()), 
           if (userRole == "user")
-            _buildIconButton(Icons.history, "Session History", SessionHistoryScreen()), // ✅ Users: View Session History
+            _buildIconButton(Icons.history, "Session History", SessionHistoryScreen()), 
           if (userRole == "mentor")
-            _buildIconButton(Icons.check_circle, "Approve Sessions", ApproveSessionScreen()), // ✅ Mentors: Approve Requests
-          _buildIconButton(Icons.logout, "Logout", null, logout: true), // ✅ Logout button
+            _buildIconButton(Icons.check_circle, "Approve Sessions", ApproveSessionScreen()), 
+          _buildIconButton(Icons.logout, "Logout", null, logout: true), 
         ],
       ),
 
       body: Column(
         children: [
-          // ✅ Welcome message
+
           Container(
             width: double.infinity,
             padding: EdgeInsets.all(12),
@@ -69,7 +69,7 @@ class _MentorListScreenState extends State<MentorListScreen> {
             ),
           ),
 
-          if (userRole == "admin") // ✅ Admins only: Promote User to Mentor
+          if (userRole == "admin") 
             Padding(
               padding: EdgeInsets.all(8),
               child: ElevatedButton.icon(
@@ -103,7 +103,6 @@ class _MentorListScreenState extends State<MentorListScreen> {
     );
   }
 
-  // ✅ Function to build reusable icon buttons
   Widget _buildIconButton(IconData icon, String tooltip, Widget? screen, {bool logout = false}) {
     return IconButton(
       icon: Icon(icon, size: 28),
@@ -119,14 +118,13 @@ class _MentorListScreenState extends State<MentorListScreen> {
     );
   }
 
-  // ✅ Function to show a friendly welcome message
+
   String _getWelcomeMessage(String role) {
     if (role == "admin") return "👋 Welcome Admin! You can promote users to mentors and manage sessions.";
     if (role == "mentor") return "🔹 Welcome Mentor! Check mentorship requests and approve sessions.";
     return "🌟 Welcome! Browse mentors and request mentorship sessions.";
   }
 
-  // ✅ Function to build a styled "No mentors available" message
   Widget _buildNoMentorsMessage() {
     return Center(
       child: Column(
@@ -140,7 +138,6 @@ class _MentorListScreenState extends State<MentorListScreen> {
     );
   }
 
-  // ✅ Function to build a well-designed mentor card
   Widget _buildMentorCard(Mentor mentor, String userRole) {
     return Card(
       margin: EdgeInsets.symmetric(vertical: 8, horizontal: 12),

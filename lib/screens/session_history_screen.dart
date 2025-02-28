@@ -44,7 +44,6 @@ class _SessionHistoryScreenState extends State<SessionHistoryScreen> {
                   itemBuilder: (context, index) {
                     final session = sessionProvider.sessions[index];
 
-                    // ✅ Correctly display Approved, Pending, and Rejected statuses
                     String statusText;
                     Color statusColor;
 

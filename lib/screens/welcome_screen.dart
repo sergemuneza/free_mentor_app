@@ -20,15 +20,14 @@ class WelcomeScreen extends StatelessWidget {
           ),
         ),
         child: SingleChildScrollView(
-          // ✅ Prevents overflow on small screens
+         
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               SizedBox(height: 80),
 
-              // ✅ App Logo (Optional: Add your own logo)
               Image.asset(
-                'assets/images/logo.png', // Make sure you have a logo in assets
+                'assets/images/logo.png', 
                 height: 160,
                 width: 160,
               ),
@@ -39,7 +38,7 @@ class WelcomeScreen extends StatelessWidget {
                 "WELCOME TO THE FREE MENTORS APP",
                 textAlign: TextAlign.center,
                 style: TextStyle(
-                  fontSize: 26, // ✅ Increased for better readability
+                  fontSize: 26, 
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                   letterSpacing: 1.2,
@@ -71,7 +70,7 @@ class WelcomeScreen extends StatelessWidget {
 
               SizedBox(height: 25),
 
-              // Developer: SERGE MUNEZA
+              
               _buildDeveloperInfo(
                 imagePath: 'assets/images/serge.jpg',
                 name: 'SERGE MUNEZA',
@@ -89,7 +88,6 @@ class WelcomeScreen extends StatelessWidget {
 
               SizedBox(height: 15),
 
-              // ✅ Animated Signup Button
               _buildButton(
                 text: "Sign Up",
                 onTap: () {
@@ -106,7 +104,6 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  // ✅ Developer Info Widget (Image + Name)
   Widget _buildDeveloperInfo(
       {required String imagePath, required String name}) {
     return Row(
@@ -129,15 +126,14 @@ class WelcomeScreen extends StatelessWidget {
     );
   }
 
-  // ✅ Reusable Button Widget
   Widget _buildButton({required String text, required VoidCallback onTap}) {
     return ElevatedButton(
       style: ElevatedButton.styleFrom(
         backgroundColor: Colors.white,
         padding: EdgeInsets.symmetric(horizontal: 50, vertical: 14),
-        elevation: 5, // ✅ Add elevation for effect
+        elevation: 5,
         shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(30)), // ✅ Rounded buttons
+            borderRadius: BorderRadius.circular(30)), // Rounded buttons
       ),
       onPressed: onTap,
       child: Text(text,
